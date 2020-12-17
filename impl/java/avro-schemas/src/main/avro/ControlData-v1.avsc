@@ -1,0 +1,40 @@
+{
+  "type": "record",
+  "name": "ControlData",
+  "namespace": "com.trivadis.poc.controldata.v1",
+  "doc": "This is the avro schema for a control data message",
+  "fields": [
+    {
+      "name": "architimetext",
+      "type": "string"
+    },
+    {
+      "name": "b1",
+      "type": "string"
+    },
+    {
+      "name": "b2",
+      "type": "string"
+    },
+    {
+      "name": "b3",
+      "type": "string"
+    },
+    {
+      "name": "elem",
+      "type": "string"
+    },
+    {
+      "name": "info",
+      "type": "string"
+    },
+    {
+      "name": "resolution",
+      "type": "string"
+    },
+    {
+      "name": "value",
+      "type": "double"
+    }
+  ]
+}
