@@ -23,12 +23,28 @@ public class DataSourceSimulator {
 
         KafkaProducerAvro producer = new KafkaProducerAvro();
 
+        long startTime = System.currentTimeMillis();
+        long totalRecords = 0;
+        long totalRecordsPerSecond = 0;
+
         // we are going to read data line by line
         while (iterator.hasNext()) {
             ControlDataDO controlDataDO = iterator.next();
 
             producer.produce(controlDataDO, -1);
+            totalRecords++;
+            totalRecordsPerSecond++;
+
+            if ((System.currentTimeMillis() - 1000) > startTime) {
+                System.out.println("Total Records last second: " + totalRecordsPerSecond);
+                totalRecordsPerSecond = 0;
+                startTime = System.currentTimeMillis();
+            }
         }
+
+        System.out.println("Total Records sent: " + totalRecords);
+        producer.close();
+
     }
 
     public static void main(String... args) throws Exception {

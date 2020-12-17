@@ -55,7 +55,6 @@ public class KafkaProducerAvro {
     }
 
     public void produce(final ControlDataDO controlDataDO, final int totalMessagesToSend) throws Exception {
-        long time = System.currentTimeMillis();
         String key = convertKey(controlDataDO);
         ControlData value = convertValue(controlDataDO);
 
@@ -63,7 +62,7 @@ public class KafkaProducerAvro {
             final ProducerRecord<String, ControlData> record =
                     new ProducerRecord<>(TOPIC, key, value);
 
-//            RecordMetadata metadata = producer.send(record).get();
+            //            RecordMetadata metadata = producer.send(record).get();
             producer.send(record, (metadata, exception) -> {
                 if (metadata != null) {
                     //
@@ -71,11 +70,13 @@ public class KafkaProducerAvro {
                     exception.printStackTrace();
                 }
             });
-
-            long elapsedTime = System.currentTimeMillis() - time;
-            time = System.currentTimeMillis();
         } finally {
         }
+    }
+
+    public void close() {
+        producer.flush();
+        producer.close();
     }
 
 }
