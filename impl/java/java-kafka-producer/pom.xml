@@ -89,7 +89,6 @@
 				<version>1.6.0</version>
 				<executions>
 					<execution>
-						<id>producer</id>
 						<goals>
 							<goal>java</goal>
 						</goals>
