@@ -2,18 +2,22 @@ package com.trivadis;
 
 import com.opencsv.bean.CsvToBeanBuilder;
 import com.trivadis.kafka.producer.KafkaProducerAvro;
+import picocli.CommandLine;
 
-import java.io.FileReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
+import java.io.*;
 import java.util.Iterator;
 
-public class DataSourceSimulator {
+public class DataSourceSimulator implements Callable<Integer> {
 
-    private void runSimulator(final String fileName, final int sendMessageCount, final int speedUpFactor) throws Exception {
-        InputStream is = getClass().getClassLoader().getResourceAsStream(fileName);
-        Reader fileReader = new InputStreamReader(is);
+    // final String fileName, final int sendMessageCount, final int speedUpFactor
+
+    @CommandLine.Parameters(names = "-f", paramLabel = "INPUT_FILE", description = "the input file")
+    File inputFile;
+
+    public Integer call() throws Exception {
+//        InputStream is = getClass().getClassLoader().getResourceAsStream(inputFile.);
+//        Reader fileReader = new InputStreamReader(is);
+        FileReader fileReader = new FileReader(inputFile);
 
         // create csvReader object with parameter filereader and parser
         Iterator<ControlDataDO> iterator = new CsvToBeanBuilder(fileReader)
@@ -31,7 +35,7 @@ public class DataSourceSimulator {
         while (iterator.hasNext()) {
             ControlDataDO controlDataDO = iterator.next();
 
-            producer.produce(controlDataDO, -1, true);
+            producer.produce(controlDataDO,true);
 
             totalRecords++;
             totalRecordsPerSecond++;
@@ -49,11 +53,7 @@ public class DataSourceSimulator {
     }
 
     public static void main(String... args) throws Exception {
-        DataSourceSimulator sim = new DataSourceSimulator();
-        if (args.length == 0) {
-            sim.runSimulator("data/tng.csv",10,0);
-        } else {
-            sim.runSimulator("data/tng.csv", Integer.parseInt(args[0]),Integer.parseInt(args[1]));
-        }
+        int exitCode = new CommandLine(new DataSourceSimulator()).execute(args);
+        System.exit(exitCode);
     }
 }

@@ -55,7 +55,7 @@ public class KafkaProducerAvro {
         this.producer = createProducer();
     }
 
-    public void produce(final ControlDataDO controlDataDO, final int totalMessagesToSend, boolean useAsync) throws Exception {
+    public void produce(final ControlDataDO controlDataDO, boolean useAsync) throws Exception {
         String key = convertKey(controlDataDO);
         ControlData value = convertValue(controlDataDO);
 
