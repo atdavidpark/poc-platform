@@ -63,7 +63,14 @@ public class KafkaProducerAvro {
             final ProducerRecord<String, ControlData> record =
                     new ProducerRecord<>(TOPIC, key, value);
 
-            RecordMetadata metadata = producer.send(record).get();
+//            RecordMetadata metadata = producer.send(record).get();
+            producer.send(record, (metadata, exception) -> {
+                if (metadata != null) {
+                    //
+                } else {
+                    exception.printStackTrace();
+                }
+            });
 
             long elapsedTime = System.currentTimeMillis() - time;
             time = System.currentTimeMillis();
