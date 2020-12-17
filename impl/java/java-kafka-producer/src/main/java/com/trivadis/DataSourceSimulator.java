@@ -1,15 +1,10 @@
-import com.opencsv.*;
+package com.trivadis;
+
 import com.opencsv.bean.CsvToBeanBuilder;
-import com.trivadis.kafka.producer.ControlDataDO;
 import com.trivadis.kafka.producer.KafkaProducerAvro;
-import com.trivadis.poc.controldata.v1.ControlData;
-import org.apache.kafka.clients.producer.Producer;
-import org.apache.kafka.clients.producer.ProducerRecord;
-import org.apache.kafka.clients.producer.RecordMetadata;
 
 import java.io.FileReader;
 import java.util.Iterator;
-import java.util.List;
 
 public class DataSourceSimulator {
 

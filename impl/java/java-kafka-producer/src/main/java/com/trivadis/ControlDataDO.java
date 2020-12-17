@@ -1,4 +1,4 @@
-package com.trivadis.kafka.producer;
+package com.trivadis;
 
 import com.opencsv.bean.CsvBindByPosition;
 import com.opencsv.bean.CsvNumber;

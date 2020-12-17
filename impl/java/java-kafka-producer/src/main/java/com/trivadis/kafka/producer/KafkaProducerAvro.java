@@ -2,6 +2,7 @@ package com.trivadis.kafka.producer;
 
 import java.util.Properties;
 
+import com.trivadis.ControlDataDO;
 import com.trivadis.poc.controldata.v1.ControlData;
 import org.apache.kafka.clients.producer.*;
 

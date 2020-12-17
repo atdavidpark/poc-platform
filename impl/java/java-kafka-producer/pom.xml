@@ -94,7 +94,7 @@
 							<goal>java</goal>
 						</goals>
 						<configuration>
-							<mainClass>com.trivadis.kafka.producer.KafkaProducerAvro</mainClass>
+							<mainClass>com.trivadis.DataSourceSimulator</mainClass>
 						</configuration>
 					</execution>
 				</executions>
