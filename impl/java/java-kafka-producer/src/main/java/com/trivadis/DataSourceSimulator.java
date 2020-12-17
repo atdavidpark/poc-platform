@@ -6,12 +6,15 @@ import picocli.CommandLine;
 
 import java.io.*;
 import java.util.Iterator;
+import java.util.concurrent.Callable;
 
+@CommandLine.Command(name = "simulator", mixinStandardHelpOptions = true, version = "simulator 1.0",
+        description = "Runs the simulator based on an input file")
 public class DataSourceSimulator implements Callable<Integer> {
 
     // final String fileName, final int sendMessageCount, final int speedUpFactor
 
-    @CommandLine.Parameters(names = "-f", paramLabel = "INPUT_FILE", description = "the input file")
+    @CommandLine.Option(names = {"-f", "--file"}, paramLabel = "INPUT_FILE", description = "the input file")
     File inputFile;
 
     public Integer call() throws Exception {
@@ -50,6 +53,7 @@ public class DataSourceSimulator implements Callable<Integer> {
         System.out.println("Total Records sent: " + totalRecords);
         producer.close();
 
+        return 0;
     }
 
     public static void main(String... args) throws Exception {
