@@ -15,10 +15,7 @@ Keep **Linux/Unix** for the **Select a platform** and click on **OS Only** and s
 
 ![Alt Image Text](./images/lightsail-create-instance-2.png "Lightsail Homepage")
 
-Scroll down to **Launch script** and add the following script. Make sure to specify the flavour in the first line with either
-
-* `hdfs` - if you want to have Hadoop HDFS on a Hadoop cluster 
-* `minio` (default) - if you want to have a stack with a local object store and no Hadoop 
+Scroll down to **Launch script** and add the following script. 
 
 Optionally change the password from the default value of `ubuntu` to a more secure one. 
 
