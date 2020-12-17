@@ -20,7 +20,9 @@ public class KafkaProducerAvro {
     private static Producer<String, ControlData> createProducer() {
         Properties props = new Properties();
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, BOOTSTRAP_SERVERS);
-        props.put(ProducerConfig.CLIENT_ID_CONFIG, "KafkaExampleProducer");
+        props.put(ProducerConfig.CLIENT_ID_CONFIG, "KafkaProducer");
+        props.put(ProducerConfig.BATCH_SIZE_CONFIG, 16384);
+        props.put(ProducerConfig.COMPRESSION_TYPE_CONFIG, "zstd");
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, KafkaAvroSerializer.class.getName());
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, KafkaAvroSerializer.class.getName());
         props.put(KafkaAvroSerializerConfig.SCHEMA_REGISTRY_URL_CONFIG, SCHEMA_REGISTRY_URL);   // use constant for "schema.registry.url"
