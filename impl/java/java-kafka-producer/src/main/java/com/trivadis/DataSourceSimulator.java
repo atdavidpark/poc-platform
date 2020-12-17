@@ -12,7 +12,7 @@ import java.util.Iterator;
 public class DataSourceSimulator {
 
     private void runSimulator(final String fileName, final int sendMessageCount, final int speedUpFactor) throws Exception {
-        InputStream is = getClass().getClassLoader().getResourceAsStream("data/tng.csv");
+        InputStream is = getClass().getClassLoader().getResourceAsStream(fileName);
         Reader fileReader = new InputStreamReader(is);
 
         // create csvReader object with parameter filereader and parser
@@ -34,9 +34,9 @@ public class DataSourceSimulator {
     public static void main(String... args) throws Exception {
         DataSourceSimulator sim = new DataSourceSimulator();
         if (args.length == 0) {
-            sim.runSimulator("/Users/gus/workspace/git/trivadispf/poc-platform/impl/java/java-kafka-producer/src/main/resources/data/tng.csv",10,0);
+            sim.runSimulator("data/tng.csv",10,0);
         } else {
-            sim.runSimulator("data/test.csv", Integer.parseInt(args[0]),Integer.parseInt(args[1]));
+            sim.runSimulator("data/tng.csv", Integer.parseInt(args[0]),Integer.parseInt(args[1]));
         }
     }
 }

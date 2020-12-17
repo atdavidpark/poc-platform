@@ -13,7 +13,7 @@ public class KafkaProducerAvro {
 
     private final static String TOPIC = "controldata-v1";
     private final static String BOOTSTRAP_SERVERS =
-            "dataplatform:9092, dataplatform:9093, dataplatform:9094";
+            "dataplatform:29092, dataplatform:29093, dataplatform:29094";
     private final static String SCHEMA_REGISTRY_URL = "http://dataplatform:8081";
 
     private Producer<String, ControlData> producer;
