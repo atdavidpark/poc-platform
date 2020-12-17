@@ -12,12 +12,29 @@ import java.util.concurrent.Callable;
         description = "Runs the simulator based on an input file")
 public class DataSourceSimulator implements Callable<Integer> {
 
+    private final static String BOOTSTRAP_SERVERS = "dataplatform:9092, dataplatform:9093, dataplatform:9094";
+
     // final String fileName, final int sendMessageCount, final int speedUpFactor
 
-    @CommandLine.Option(names = {"-f", "--file"}, paramLabel = "INPUT_FILE", description = "the input file")
+    @CommandLine.Option(names = {"-f", "--file"}, description = "the input file")
     File inputFile;
 
-//    @CommandLine.Option(names = { "-h", "--help" }, usageHelp = true, description = "display a help message")
+    @CommandLine.Option(names = {"-b", "--bootstrapServers"}, description = "bootstrap servers to use to connect to kafka")
+    String bootstrapServers = BOOTSTRAP_SERVERS;
+
+    @CommandLine.Option(names = {"-a", "--async"}, description = "produce asynchronously")
+    boolean useAsync = false;
+
+    @CommandLine.Option(names = {"-s", "--batch-size"}, description = "produce with this batch size (in bytes)")
+    Integer batchSize = 16384;
+
+    @CommandLine.Option(names = {"-l", "--linger-ms"}, description = "produce with this linger ms (in milliseconds)")
+    Integer lingerMs = 0;
+
+    @CommandLine.Option(names = {"-c", "--compression-type"}, description = "Compression Type to use, defaults to none")
+    String compressionType = null;
+
+    //    @CommandLine.Option(names = { "-h", "--help" }, usageHelp = true, description = "display a help message")
 //    private boolean helpRequested = false;
 
     public Integer call() throws Exception {
@@ -31,7 +48,7 @@ public class DataSourceSimulator implements Callable<Integer> {
                 .withType(ControlDataDO.class)
                 .build().iterator();
 
-        KafkaProducerAvro producer = new KafkaProducerAvro();
+        KafkaProducerAvro producer = new KafkaProducerAvro(bootstrapServers, batchSize, lingerMs, compressionType);
 
         long startTime = System.currentTimeMillis();
         long totalRecords = 0;
@@ -41,7 +58,7 @@ public class DataSourceSimulator implements Callable<Integer> {
         while (iterator.hasNext()) {
             ControlDataDO controlDataDO = iterator.next();
 
-            producer.produce(controlDataDO,true);
+            producer.produce(controlDataDO,useAsync);
 
             totalRecords++;
             totalRecordsPerSecond++;

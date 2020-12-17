@@ -12,19 +12,19 @@ import io.confluent.kafka.serializers.KafkaAvroSerializerConfig;
 public class KafkaProducerAvro {
 
     private final static String TOPIC = "controldata-v1";
-    private final static String BOOTSTRAP_SERVERS =
-            "dataplatform:9092, dataplatform:9093, dataplatform:9094";
+
     private final static String SCHEMA_REGISTRY_URL = "http://dataplatform:8081";
 
     private Producer<String, ControlData> producer;
 
-    private static Producer<String, ControlData> createProducer() {
+    private static Producer<String, ControlData> createProducer(String bootstrapServers, Integer batchSize, Integer lingerMs, String compressionType) {
         Properties props = new Properties();
-        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, BOOTSTRAP_SERVERS);
+        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         props.put(ProducerConfig.CLIENT_ID_CONFIG, "KafkaProducer");
-        props.put(ProducerConfig.BATCH_SIZE_CONFIG, 100000);
-        props.put(ProducerConfig.LINGER_MS_CONFIG, 100);
-        props.put(ProducerConfig.COMPRESSION_TYPE_CONFIG, "lz4");
+        props.put(ProducerConfig.BATCH_SIZE_CONFIG, batchSize);
+        props.put(ProducerConfig.LINGER_MS_CONFIG, lingerMs);
+        if (compressionType != null)
+            props.put(ProducerConfig.COMPRESSION_TYPE_CONFIG, compressionType);
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, KafkaAvroSerializer.class.getName());
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, KafkaAvroSerializer.class.getName());
         props.put(KafkaAvroSerializerConfig.SCHEMA_REGISTRY_URL_CONFIG, SCHEMA_REGISTRY_URL);   // use constant for "schema.registry.url"
@@ -51,8 +51,8 @@ public class KafkaProducerAvro {
         return controlData;
     }
 
-    public KafkaProducerAvro() {
-        this.producer = createProducer();
+    public KafkaProducerAvro(String bootstrapServers, Integer batchSize, Integer lingerMs, String compressionType) {
+        this.producer = createProducer(bootstrapServers, batchSize, lingerMs, compressionType);
     }
 
     public void produce(final ControlDataDO controlDataDO, boolean useAsync) throws Exception {
