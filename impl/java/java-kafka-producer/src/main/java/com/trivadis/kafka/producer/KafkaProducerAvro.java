@@ -54,7 +54,7 @@ public class KafkaProducerAvro {
         this.producer = createProducer();
     }
 
-    public void produce(final ControlDataDO controlDataDO, final int totalMessagesToSend) throws Exception {
+    public void produce(final ControlDataDO controlDataDO, final int totalMessagesToSend, boolean useAsync) throws Exception {
         String key = convertKey(controlDataDO);
         ControlData value = convertValue(controlDataDO);
 
@@ -62,14 +62,17 @@ public class KafkaProducerAvro {
             final ProducerRecord<String, ControlData> record =
                     new ProducerRecord<>(TOPIC, key, value);
 
-            //            RecordMetadata metadata = producer.send(record).get();
-            producer.send(record, (metadata, exception) -> {
-                if (metadata != null) {
-                    //
-                } else {
-                    exception.printStackTrace();
-                }
-            });
+            if (!useAsync) {
+                RecordMetadata metadata = producer.send(record).get();
+            } else {
+                producer.send(record, (metadata, exception) -> {
+                    if (metadata != null) {
+                        //
+                    } else {
+                        exception.printStackTrace();
+                    }
+                });
+            }
         } finally {
         }
     }
