@@ -35,6 +35,10 @@
     {
       "name": "value",
       "type": "double"
+    },
+    {
+      "name": "flag",
+      "type": "string"
     }
   ]
 }
