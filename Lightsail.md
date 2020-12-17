@@ -20,9 +20,9 @@ Scroll down to **Launch script** and add the following script.
 Optionally change the password from the default value of `ubuntu` to a more secure one. 
 
 ```
-export GITHUB_PROJECT=spark-ext-s3-platform
-export GITHUB_OWNER=gschmutz
-export DATAPLATFORM_HOME=docker
+export GITHUB_PROJECT=poc-platform
+export GITHUB_OWNER=trivadispf
+export DATAPLATFORM_HOME=docker-central
 export DOCKER_COMPOSE_VERSION=1.25.3
 export PLATYS_VERSION=2.4.0
 export NETWORK_NAME=eth0
