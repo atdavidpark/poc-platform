@@ -17,8 +17,8 @@ public class DataSourceSimulator implements Callable<Integer> {
     @CommandLine.Option(names = {"-f", "--file"}, paramLabel = "INPUT_FILE", description = "the input file")
     File inputFile;
 
-    @CommandLine.Option(names = { "-h", "--help" }, usageHelp = true, description = "display a help message")
-    private boolean helpRequested = false;
+//    @CommandLine.Option(names = { "-h", "--help" }, usageHelp = true, description = "display a help message")
+//    private boolean helpRequested = false;
 
     public Integer call() throws Exception {
 //        InputStream is = getClass().getClassLoader().getResourceAsStream(inputFile.);
