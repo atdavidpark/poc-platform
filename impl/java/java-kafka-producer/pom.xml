@@ -86,17 +86,17 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
-				<version>1.6.0</version>
+				<version>3.0.0</version>
 				<executions>
 					<execution>
 						<goals>
 							<goal>java</goal>
 						</goals>
-						<configuration>
-							<mainClass>com.trivadis.DataSourceSimulator</mainClass>
-						</configuration>
 					</execution>
 				</executions>
+				<configuration>
+					<mainClass>com.trivadis.DataSourceSimulator</mainClass>
+				</configuration>
 			</plugin>
 
 		</plugins>
