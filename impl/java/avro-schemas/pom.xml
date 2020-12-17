@@ -78,6 +78,7 @@
 							<sourceDirectory>${project.basedir}/src/main/avro/</sourceDirectory>
 							<testSourceDirectory>${project.basedir}/src/test/avro/</testSourceDirectory>
 							<fieldVisibility>PRIVATE</fieldVisibility>
+							<stringType>String</stringType>
 						</configuration>
 					</execution>
 				</executions>
