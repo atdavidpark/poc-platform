@@ -21,15 +21,13 @@ Optionally change the password from the default value of `ubuntu` to a more secu
 
 ```
 export GITHUB_PROJECT=poc-platform
-export GITHUB_OWNER=trivadispf
+export GITHUB_OWNER=TrivadisPF
 export DATAPLATFORM_HOME=docker-central
 export DOCKER_COMPOSE_VERSION=1.25.3
 export PLATYS_VERSION=2.4.0
 export NETWORK_NAME=eth0
 export USERNAME=ubuntu
 export PASSWORD=ubuntu
-export AWS_ACCESS_KEY=<replace it by an AWS access key>
-export AWS_SECRET_ACCESS_KEY=<replace it by an AWS secret key>
 
 # Prepare Environment Variables 
 export PUBLIC_IP=$(curl ipinfo.io/ip)
@@ -80,11 +78,6 @@ printf "export DOCKER_HOST_IP=$DOCKER_HOST_IP\n" >> /home/$USERNAME/.bash_profil
 printf "export DATAPLATFORM_HOME=$PWD\n" >> /home/$USERNAME/.bash_profile
 printf "\n" >> /home/$USERNAME/.bash_profile
 sudo chown ${USERNAME}:${USERNAME} /home/$USERNAME/.bash_profile
-
-# create the .env file
-rm $PWD/.env
-printf "PLATYS_AWS_ACCESS_KEY=$AWS_ACCESS_KEY\n" >> $PWD/.env
-printf "PLATYS_AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY\n" >> $PWD/.env
 
 # Startup Environment
 docker-compose up -d
