@@ -31,7 +31,7 @@ public class DataSourceSimulator {
         while (iterator.hasNext()) {
             ControlDataDO controlDataDO = iterator.next();
 
-            producer.produce(controlDataDO, -1, false);
+            producer.produce(controlDataDO, -1, true);
 
             totalRecords++;
             totalRecordsPerSecond++;
