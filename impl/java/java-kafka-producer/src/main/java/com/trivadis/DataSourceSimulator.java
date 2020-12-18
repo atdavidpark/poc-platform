@@ -80,7 +80,8 @@ public class DataSourceSimulator implements Callable<Integer> {
             }
         }
 
-        System.out.println("Total Records sent: " + totalRecords + "in " + ((System.currentTimeMillis() - startTime) / 1000) + " seconds." );
+        System.out.println("Total Records sent: " + totalRecords);
+        System.out.println("Took " + ((System.currentTimeMillis() - startTime) / 1000) + " seconds." );
         producer.close();
 
         return 0;
