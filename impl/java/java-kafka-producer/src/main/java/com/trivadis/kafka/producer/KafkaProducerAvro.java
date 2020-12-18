@@ -8,6 +8,8 @@ import org.apache.kafka.clients.producer.*;
 
 import io.confluent.kafka.serializers.KafkaAvroSerializer;
 import io.confluent.kafka.serializers.KafkaAvroSerializerConfig;
+import org.apache.kafka.common.serialization.Serdes;
+import org.apache.kafka.common.serialization.StringSerializer;
 
 public class KafkaProducerAvro {
 
@@ -24,7 +26,7 @@ public class KafkaProducerAvro {
         props.put(ProducerConfig.ACKS_CONFIG, acks);
         if (compressionType != null)
             props.put(ProducerConfig.COMPRESSION_TYPE_CONFIG, compressionType);
-        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, KafkaAvroSerializer.class.getName());
+        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, KafkaAvroSerializer.class.getName());
         props.put(KafkaAvroSerializerConfig.SCHEMA_REGISTRY_URL_CONFIG, schemaRegistryUrl);
 
