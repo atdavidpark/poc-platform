@@ -59,10 +59,12 @@ public class DataSourceSimulator implements Callable<Integer> {
         KafkaProducerAvro producer = new KafkaProducerAvro(bootstrapServers, schemaRegistryUrl, batchSize, lingerMs, compressionType, acks);
 
         long startTime = System.currentTimeMillis();
+        long blockStartTime = System.currentTimeMillis();
         long totalRecords = 0;
         long totalRecordsPerSecond = 0;
 
         // we are going to read data line by line
+
         while (iterator.hasNext()) {
             ControlDataDO controlDataDO = iterator.next();
 
@@ -71,14 +73,14 @@ public class DataSourceSimulator implements Callable<Integer> {
             totalRecords++;
             totalRecordsPerSecond++;
 
-            if ((System.currentTimeMillis() - 1000) > startTime) {
+            if ((System.currentTimeMillis() - 1000) > blockStartTime) {
                 System.out.println("Total Records last second: " + totalRecordsPerSecond);
                 totalRecordsPerSecond = 0;
-                startTime = System.currentTimeMillis();
+                blockStartTime = System.currentTimeMillis();
             }
         }
 
-        System.out.println("Total Records sent: " + totalRecords);
+        System.out.println("Total Records sent: " + totalRecords + "in " + (System.currentTimeMillis() - startTime / 1000) + " seconds." );
         producer.close();
 
         return 0;
