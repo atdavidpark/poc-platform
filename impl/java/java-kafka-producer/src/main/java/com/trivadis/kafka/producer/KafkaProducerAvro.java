@@ -15,7 +15,7 @@ public class KafkaProducerAvro {
 
     private Producer<String, ControlData> producer;
 
-    private static Producer<String, ControlData> createProducer(String bootstrapServers, String schemaRegistryUrl, Integer batchSize, Integer lingerMs, String compressionType, Integer acks) {
+    private static Producer<String, ControlData> createProducer(String bootstrapServers, String schemaRegistryUrl, Integer batchSize, Integer lingerMs, String compressionType, String acks) {
         Properties props = new Properties();
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         props.put(ProducerConfig.CLIENT_ID_CONFIG, "KafkaProducer");
@@ -50,7 +50,7 @@ public class KafkaProducerAvro {
         return controlData;
     }
 
-    public KafkaProducerAvro(String bootstrapServers, String schemaRegistryUrl, Integer batchSize, Integer lingerMs, String compressionType, Integer acks) {
+    public KafkaProducerAvro(String bootstrapServers, String schemaRegistryUrl, Integer batchSize, Integer lingerMs, String compressionType, String acks) {
         this.producer = createProducer(bootstrapServers, schemaRegistryUrl, batchSize, lingerMs, compressionType, acks);
     }
 

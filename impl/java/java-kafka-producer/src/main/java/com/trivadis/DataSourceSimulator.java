@@ -31,7 +31,7 @@ public class DataSourceSimulator implements Callable<Integer> {
     boolean useAsync = false;
 
     @CommandLine.Option(names = {"-k", "--acks"}, description = "acks settings, defaults to 1")
-    Integer acks = 1;
+    String acks = "1";
 
     @CommandLine.Option(names = {"-s", "--batch-size"}, description = "produce with this batch size (in bytes)")
     Integer batchSize = 16384;
