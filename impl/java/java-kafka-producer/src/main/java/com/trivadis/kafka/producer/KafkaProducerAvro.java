@@ -13,21 +13,20 @@ public class KafkaProducerAvro {
 
     private final static String TOPIC = "controldata-v1";
 
-    private final static String SCHEMA_REGISTRY_URL = "http://dataplatform:8081";
-
     private Producer<String, ControlData> producer;
 
-    private static Producer<String, ControlData> createProducer(String bootstrapServers, Integer batchSize, Integer lingerMs, String compressionType) {
+    private static Producer<String, ControlData> createProducer(String bootstrapServers, String schemaRegistryUrl, Integer batchSize, Integer lingerMs, String compressionType, Integer acks) {
         Properties props = new Properties();
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         props.put(ProducerConfig.CLIENT_ID_CONFIG, "KafkaProducer");
         props.put(ProducerConfig.BATCH_SIZE_CONFIG, batchSize);
         props.put(ProducerConfig.LINGER_MS_CONFIG, lingerMs);
+        props.put(ProducerConfig.ACKS_CONFIG, acks);
         if (compressionType != null)
             props.put(ProducerConfig.COMPRESSION_TYPE_CONFIG, compressionType);
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, KafkaAvroSerializer.class.getName());
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, KafkaAvroSerializer.class.getName());
-        props.put(KafkaAvroSerializerConfig.SCHEMA_REGISTRY_URL_CONFIG, SCHEMA_REGISTRY_URL);   // use constant for "schema.registry.url"
+        props.put(KafkaAvroSerializerConfig.SCHEMA_REGISTRY_URL_CONFIG, schemaRegistryUrl);
 
         return new KafkaProducer<>(props);
     }
@@ -51,8 +50,8 @@ public class KafkaProducerAvro {
         return controlData;
     }
 
-    public KafkaProducerAvro(String bootstrapServers, Integer batchSize, Integer lingerMs, String compressionType) {
-        this.producer = createProducer(bootstrapServers, batchSize, lingerMs, compressionType);
+    public KafkaProducerAvro(String bootstrapServers, String schemaRegistryUrl, Integer batchSize, Integer lingerMs, String compressionType, Integer acks) {
+        this.producer = createProducer(bootstrapServers, schemaRegistryUrl, batchSize, lingerMs, compressionType, acks);
     }
 
     public void produce(final ControlDataDO controlDataDO, boolean useAsync) throws Exception {

@@ -13,17 +13,25 @@ import java.util.concurrent.Callable;
 public class DataSourceSimulator implements Callable<Integer> {
 
     private final static String BOOTSTRAP_SERVERS = "dataplatform:9092, dataplatform:9093, dataplatform:9094";
+    private final static String SCHEMA_REGISTRY_URL = "http://dataplatform:8081";
+
 
     // final String fileName, final int sendMessageCount, final int speedUpFactor
 
     @CommandLine.Option(names = {"-f", "--file"}, description = "the input file")
     File inputFile;
 
-    @CommandLine.Option(names = {"-b", "--bootstrapServers"}, description = "bootstrap servers to use to connect to kafka")
+    @CommandLine.Option(names = {"-b", "--bootstrap-servers"}, description = "bootstrap servers to use to connect to kafka")
     String bootstrapServers = BOOTSTRAP_SERVERS;
+
+    @CommandLine.Option(names = {"-r", "--schema-registry"}, description = "schema registry URL")
+    String schemaRegistryUrl = SCHEMA_REGISTRY_URL;
 
     @CommandLine.Option(names = {"-a", "--async"}, description = "produce asynchronously")
     boolean useAsync = false;
+
+    @CommandLine.Option(names = {"-k", "--acks"}, description = "acks settings, defaults to 1")
+    Integer acks = 1;
 
     @CommandLine.Option(names = {"-s", "--batch-size"}, description = "produce with this batch size (in bytes)")
     Integer batchSize = 16384;
@@ -48,7 +56,7 @@ public class DataSourceSimulator implements Callable<Integer> {
                 .withType(ControlDataDO.class)
                 .build().iterator();
 
-        KafkaProducerAvro producer = new KafkaProducerAvro(bootstrapServers, batchSize, lingerMs, compressionType);
+        KafkaProducerAvro producer = new KafkaProducerAvro(bootstrapServers, schemaRegistryUrl, batchSize, lingerMs, compressionType, acks);
 
         long startTime = System.currentTimeMillis();
         long totalRecords = 0;
