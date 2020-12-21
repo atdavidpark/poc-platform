@@ -10,9 +10,11 @@
 | kafka-connect-1|| <http://172.16.252.14:8083>
 | kafka-connect-2|| <http://172.16.252.14:8084>
 | kafka-connect-ui|<http://172.16.252.14:28103>
+| kafka-rest-1|| <http://172.16.252.14:18086>
 | kafkacat|
 | ksqldb-cli|
 | ksqldb-server-1|| <http://172.16.252.14:8088>
+| ksqldb-server-2|| <http://172.16.252.14:8089>
 | markdown-renderer|
 | markdown-viewer|<http://172.16.252.14>
 | schema-registry-1|| <http://172.16.252.14:8081>
