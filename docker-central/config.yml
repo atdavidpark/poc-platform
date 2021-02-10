@@ -49,7 +49,7 @@
       KAFKA_enable: true
       CONFLUENT_PLATFORM_version: 6.0.0
       # one of enterprise, community
-      KAFKA_edition: 'community'
+      KAFKA_edition: 'enterprise'
       KAFKA_volume_map_data: false
       KAFKA_datacenters: 1
       KAFKA_broker_nodes: 3
