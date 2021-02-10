@@ -276,34 +276,38 @@ services:
     depends_on:
       - schema-registry-1
     environment:
-      KSQL_CONFIG_DIR: /etc/ksql
-      KSQL_KSQL_EXTENSION_DIR: /etc/ksqldb/ext/
+      KSQL_LOG4J_ROOT_LOGLEVEL: INFO
       KSQL_LOG4J_OPTS: -Dlog4j.configuration=file:/etc/ksqldb/log4j.properties
-      KSQL_HOST_NAME: ksqldb-server-1
+      KSQL_LOG4J_PROCESSING_LOG_BROKERLIST: kafka-1:19092,kafka-2:19093,kafka-3:19094
+      KSQL_LOG4J_PROCESSING_LOG_TOPIC: demo_processing_log
+      KSQL_KSQL_LOGGING_PROCESSING_TOPIC_NAME: demo_processing_log
+      KSQL_KSQL_LOGGING_PROCESSING_TOPIC_REPLICATION_FACTOR: 1
+      KSQL_KSQL_LOGGING_PROCESSING_TOPIC_AUTO_CREATE: 'true'
+      KSQL_KSQL_LOGGING_PROCESSING_STREAM_AUTO_CREATE: 'true'
+      # For Demo purposes: improve resource utilization and avoid timeouts
+      KSQL_KSQL_STREAMS_NUM_STREAM_THREADS: 1
+      KSQL_PRODUCER_ENABLE_IDEMPOTENCE: 'true'
       KSQL_APPLICATION_ID: kafka-demo
       KSQL_KSQL_SERVICE_ID: kafka-demo
+      KSQL_HOST_NAME: ksqldb-server-1
       KSQL_LISTENERS: http://0.0.0.0:8088
       KSQL_BOOTSTRAP_SERVERS: kafka-1:19092,kafka-2:19093,kafka-3:19094
+      KSQL_CACHE_MAX_BYTES_BUFFERING: 0
       #KSQL_SECURITY_PROTOCOL: SASL_SSL
       #KSQL_SASL_MECHANISM: PLAIN
       #KSQL_SASL_JAAS_CONFIG: org.apache.kafka.common.security.plain.PlainLoginModule required username="None" password="None";
       KSQL_KSQL_CONNECT_URL: http://kafka-connect-1:8083
       KSQL_KSQL_SCHEMA_REGISTRY_URL: http://schema-registry-1:8081
-      KSQL_LOG4J_PROCESSING_LOG_BROKERLIST: kafka-1:19092,kafka-2:19093,kafka-3:19094
-      KSQL_LOG4J_PROCESSING_LOG_TOPIC: demo_processing_log
-      KSQL_KSQL_LOGGING_PROCESSING_TOPIC_NAME: demo_processing_log
-      KSQL_LOGGING_PROCESSING_TOPIC_REPLICATION_FACTOR: 1
       KSQL_KSQL_INTERNAL_TOPIC_REPLICAS: 1
       KSQL_KSQL_STREAMS_REPLICATION_FACTOR: 1
-      KSQL_KSQL_LOGGING_PROCESSING_STREAM_AUTO_CREATE: 'true'
-      KSQL_KSQL_LOGGING_PROCESSING_TOPIC_AUTO_CREATE: 'true'
       KSQL_KSQL_QUERY_PULL_METRICS_ENABLED: 'true'
-      KSQL_KSQL_HIDDEN_TOPICS: ^_.*
+      KSQL_KSQL_HIDDEN_TOPICS: ^_.*,default_ksql_processing_log
+      KSQL_PRODUCER_INTERCEPTOR_CLASSES: io.confluent.monitoring.clients.interceptor.MonitoringProducerInterceptor
+      KSQL_CONSUMER_INTERCEPTOR_CLASSES: io.confluent.monitoring.clients.interceptor.MonitoringConsumerInterceptor
       KSQL_KSQL_SUPPRESS_ENABLED: 'True'
       KSQL_KSQL_SUPPRESS_BUFFER_SIZE_BYTES: '-1'
-      KSQL_ACCESS_CONTROL_ALLOW_ORIGIN: '*'
-      KSQL_ACCESS_CONTROL_ALLOW_METHODS: GET,POST,PUT,OPTIONS
-      KSQL_ACCESS_CONTROL_ALLOW_HEADERS: X-Requested-With,Content-Type,Accept,Origin,Authorization
+      KSQL_CONFIG_DIR: /etc/ksql
+      KSQL_KSQL_EXTENSION_DIR: /etc/ksqldb/ext/
       KSQL_JMX_OPTS: -Djava.rmi.server.hostname=localhost -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=1095 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.rmi.port=1095
     volumes:
       - ./data-transfer:/data-transfer
@@ -322,34 +326,38 @@ services:
     depends_on:
       - schema-registry-1
     environment:
-      KSQL_CONFIG_DIR: /etc/ksql
-      KSQL_KSQL_EXTENSION_DIR: /etc/ksqldb/ext/
+      KSQL_LOG4J_ROOT_LOGLEVEL: INFO
       KSQL_LOG4J_OPTS: -Dlog4j.configuration=file:/etc/ksqldb/log4j.properties
-      KSQL_HOST_NAME: ksqldb-server-2
+      KSQL_LOG4J_PROCESSING_LOG_BROKERLIST: kafka-1:19092,kafka-2:19093,kafka-3:19094
+      KSQL_LOG4J_PROCESSING_LOG_TOPIC: demo_processing_log
+      KSQL_KSQL_LOGGING_PROCESSING_TOPIC_NAME: demo_processing_log
+      KSQL_KSQL_LOGGING_PROCESSING_TOPIC_REPLICATION_FACTOR: 1
+      KSQL_KSQL_LOGGING_PROCESSING_TOPIC_AUTO_CREATE: 'true'
+      KSQL_KSQL_LOGGING_PROCESSING_STREAM_AUTO_CREATE: 'true'
+      # For Demo purposes: improve resource utilization and avoid timeouts
+      KSQL_KSQL_STREAMS_NUM_STREAM_THREADS: 1
+      KSQL_PRODUCER_ENABLE_IDEMPOTENCE: 'true'
       KSQL_APPLICATION_ID: kafka-demo
       KSQL_KSQL_SERVICE_ID: kafka-demo
+      KSQL_HOST_NAME: ksqldb-server-2
       KSQL_LISTENERS: http://0.0.0.0:8088
       KSQL_BOOTSTRAP_SERVERS: kafka-1:19092,kafka-2:19093,kafka-3:19094
+      KSQL_CACHE_MAX_BYTES_BUFFERING: 0
       #KSQL_SECURITY_PROTOCOL: SASL_SSL
       #KSQL_SASL_MECHANISM: PLAIN
       #KSQL_SASL_JAAS_CONFIG: org.apache.kafka.common.security.plain.PlainLoginModule required username="None" password="None";
       KSQL_KSQL_CONNECT_URL: http://kafka-connect-1:8083
       KSQL_KSQL_SCHEMA_REGISTRY_URL: http://schema-registry-1:8081
-      KSQL_LOG4J_PROCESSING_LOG_BROKERLIST: kafka-1:19092,kafka-2:19093,kafka-3:19094
-      KSQL_LOG4J_PROCESSING_LOG_TOPIC: demo_processing_log
-      KSQL_KSQL_LOGGING_PROCESSING_TOPIC_NAME: demo_processing_log
-      KSQL_LOGGING_PROCESSING_TOPIC_REPLICATION_FACTOR: 1
       KSQL_KSQL_INTERNAL_TOPIC_REPLICAS: 1
       KSQL_KSQL_STREAMS_REPLICATION_FACTOR: 1
-      KSQL_KSQL_LOGGING_PROCESSING_STREAM_AUTO_CREATE: 'true'
-      KSQL_KSQL_LOGGING_PROCESSING_TOPIC_AUTO_CREATE: 'true'
       KSQL_KSQL_QUERY_PULL_METRICS_ENABLED: 'true'
-      KSQL_KSQL_HIDDEN_TOPICS: ^_.*
+      KSQL_KSQL_HIDDEN_TOPICS: ^_.*,default_ksql_processing_log
+      KSQL_PRODUCER_INTERCEPTOR_CLASSES: io.confluent.monitoring.clients.interceptor.MonitoringProducerInterceptor
+      KSQL_CONSUMER_INTERCEPTOR_CLASSES: io.confluent.monitoring.clients.interceptor.MonitoringConsumerInterceptor
       KSQL_KSQL_SUPPRESS_ENABLED: 'True'
       KSQL_KSQL_SUPPRESS_BUFFER_SIZE_BYTES: '-1'
-      KSQL_ACCESS_CONTROL_ALLOW_ORIGIN: '*'
-      KSQL_ACCESS_CONTROL_ALLOW_METHODS: GET,POST,PUT,OPTIONS
-      KSQL_ACCESS_CONTROL_ALLOW_HEADERS: X-Requested-With,Content-Type,Accept,Origin,Authorization
+      KSQL_CONFIG_DIR: /etc/ksql
+      KSQL_KSQL_EXTENSION_DIR: /etc/ksqldb/ext/
       KSQL_JMX_OPTS: -Djava.rmi.server.hostname=localhost -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=1095 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.rmi.port=1095
     volumes:
       - ./data-transfer:/data-transfer
@@ -403,8 +411,8 @@ services:
       CONTROL_CENTER_BOOTSTRAP_SERVERS: kafka-1:19092,kafka-2:19093,kafka-3:19094
       CONTROL_CENTER_ZOOKEEPER_CONNECT: zookeeper-1:2181
       CONTROL_CENTER_CONNECT_CLUSTER: kafka-connect-1:8083
-      CONTROL_CENTER_KSQL_TEST_URL: http://ksql-server-1:8088
-      CONTROL_CENTER_KSQL_TEST_ADVERTISED_URL: http://${PUBLIC_IP}:8088
+      CONTROL_CENTER_KSQL_DEMO_URL: http://ksql-server-1:8088
+      CONTROL_CENTER_KSQL_DEMO_ADVERTISED_URL: http://${PUBLIC_IP}:8088
       CONTROL_CENTER_SCHEMA_REGISTRY_URL: http://schema-registry-1:8081
       CONTROL_CENTER_REPLICATION_FACTOR: 3
       CONTROL_CENTER_INTERNAL_TOPICS_PARTITIONS: 3
