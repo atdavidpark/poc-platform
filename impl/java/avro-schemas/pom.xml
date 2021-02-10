@@ -97,7 +97,7 @@
     				<version>4.0.0</version>
 				<configuration>
 					<schemaRegistryUrls>
-						<param>http://${DOCKER_HOST_IP}:8081</param>
+						<param>http://dataplatform:8081</param>
 					</schemaRegistryUrls>
 					<subjects>
 						<controldata-v1-value>src/main/avro/ControlData-v1.avsc</controldata-v1-value>
