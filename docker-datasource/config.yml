@@ -4,10 +4,10 @@
       platys:
           platform-name: 'poc-datasource-platform'
           platform-stack: 'trivadis/platys-modern-data-platform'
-          platform-stack-version: '1.9.0'
+          platform-stack-version: '1.11.0-preview'
           structure: 'flat'
       # ========================================================================
-      # Global configuration, valid for all or a group of services 
+      # Global configuration, valid for all or a group of services
       # ========================================================================
       # Timezone, use a Linux string such as Europe/Zurich or America/New_York
       use_timezone: ''
@@ -56,11 +56,11 @@
       KAFKA_delete_topic_enable: false
       KAFKA_auto_create_topics_enable: false
       KAFKA_message_timestamp_type: CreateTime
-      # KAFKA_log_segment_bytes:                        
-      # KAFKA_log_retention_ms:                         
-      # KAFKA_log_retention_hours: 
-      # KAFKA_log_retention_bytes:      
-      # KAFKA_compression_type: 
+      # KAFKA_log_segment_bytes:
+      # KAFKA_log_retention_ms:
+      # KAFKA_log_retention_hours:
+      # KAFKA_log_retention_bytes:
+      # KAFKA_compression_type:
       # KAFKA_min_insync_replicas:
       # KAFKA_replica_selector_class: org.apache.kafka.common.replica.RackAwareReplicaSelector
       KAFKA_confluent_log_placement_constraints: {}
@@ -235,12 +235,13 @@
       #
       # =====  Streamsets Data Collector ========
       #
-      STREAMSETS_enable: false
+      STREAMSETS_enable: true
       STREAMSETS_volume_map_data: false
       STREAMSETS_volume_map_logs: false
       STREAMSETS_volume_map_security_policy: false
       STREAMSETS_activate_https: false
       STREAMSETS_additional_port_mappings: 0
+      STREAMSETS_stage_libs: 'streamsets-datacollector-apache-kafka_2_6-lib,streamsets-datacollector-groovy_2_4-lib,streamsets-datacollector-jdbc-lib'
       # one of 'none', 'basic', 'digest', or 'form'
       STREAMSETS_http_authentication: form
       #
@@ -263,7 +264,7 @@
       NIFI_jvm_heap_max:
       #
       # ===== Apache NiFi Registry ========
-      #      
+      #
       NIFI_REGISTRY_enable: false
       #
       # ===== Node Red  ========
@@ -586,4 +587,3 @@
       PYTHON_enable: false
       PYTHON_script_folder: ''
       PYTHON_script: ''
-      
