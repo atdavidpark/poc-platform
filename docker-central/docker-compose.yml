@@ -1,7 +1,7 @@
 # =======================================================================
 # Platform Name            poc-central-platform
 # Platform Stack:          trivadis/platys-modern-data-platform
-# Platform Stack Version:  1.9.0
+# Platform Stack Version:  1.11.0-preview
 # =======================================================================
 version: '3.5'
 networks:
@@ -35,6 +35,7 @@ services:
       - zookeeper-1
     ports:
       - 9092:9092
+      - 19092:19092
       - 29092:29092
       - 9992:9992
     environment:
@@ -67,6 +68,7 @@ services:
       - zookeeper-1
     ports:
       - 9093:9093
+      - 19093:19093
       - 29093:29093
       - 9993:9993
     environment:
@@ -99,6 +101,7 @@ services:
       - zookeeper-1
     ports:
       - 9094:9094
+      - 19094:19094
       - 29094:29094
       - 9994:9994
     environment:
@@ -249,7 +252,7 @@ services:
     restart: unless-stopped
   #  ================================== ksqlDB ========================================== #
   ksqldb-server-1:
-    image: confluentinc/ksqldb-server:0.13.0
+    image: confluentinc/ksqldb-server:0.14.0
     hostname: ksqldb-server-1
     container_name: ksqldb-server-1
     labels:
@@ -292,7 +295,7 @@ services:
       - ./plugins/ksql:/etc/ksqldb/ext
     restart: unless-stopped
   ksqldb-server-2:
-    image: confluentinc/ksqldb-server:0.13.0
+    image: confluentinc/ksqldb-server:0.14.0
     hostname: ksqldb-server-2
     container_name: ksqldb-server-2
     labels:
@@ -335,7 +338,7 @@ services:
       - ./plugins/ksql:/etc/ksqldb/ext
     restart: unless-stopped
   ksqldb-cli:
-    image: confluentinc/ksqldb-cli:0.13.0
+    image: confluentinc/ksqldb-cli:0.14.0
     container_name: ksqldb-cli
     hostname: ksqldb-cli
     depends_on:
@@ -376,7 +379,6 @@ services:
       - /bin/sh
       - -c
       - |
-        apk add jq;
         while [ 1 -eq 1 ];do sleep 60;done
     restart: unless-stopped
   #  ================================== Schema Registry UI ========================================== #
@@ -468,7 +470,7 @@ services:
     restart: unless-stopped
   #  ================================== StreamSets DataCollector ========================================== #
   streamsets-1:
-    image: trivadis/streamsets-kafka-hadoop-aws:3.19.0
+    image: streamsets/datacollector:3.21.0
     container_name: streamsets-1
     hostname: streamsets-1
     labels:
@@ -480,6 +482,8 @@ services:
       - 18630:18630
     environment:
       SDC_OFFSET_DIRECTORY: /data/custom-offset-el
+      SDC_INSTALL_STAGES: streamsets-datacollector-apache-kafka_2_6-lib,streamsets-datacollector-groovy_2_4-lib,streamsets-datacollector-jdbc-lib
+      SDC_INSTALL_ENTERPRISE_STAGES: ''
       SDC_JAVA_OPTS: -Xmx2g -Xms2g
       SDC_JAVA8_OPTS: -XX:+UseG1GC
       SDC_CONF_MONITOR_MEMORY: 'true'
@@ -487,14 +491,18 @@ services:
       SDC_CONF_http_authentication: form
     volumes:
       - ./data-transfer:/data-transfer
-#      - ./streamsets-extras/streamsets-libs-extras/streamsets-datacollector-jdbc-lib/postgresql-42.2.6.jar:/opt/streamsets-datacollector-3.19.0/streamsets-libs-extras/streamsets-datacollector-jdbc-lib/lib/postgresql-42.2.6.jar:Z
-#      - ./streamsets-extras/libs-common-lib:/opt/streamsets-datacollector-3.19.0/libs-common-lib:Z
-#      - ./streamsets-extras/user-libs:/opt/streamsets-datacollector-user-libs:Z
+      - ./conf/streamsets/pre-docker-entrypoint.sh:/pre-docker-entrypoint.sh
+      - ./plugins/streamsets/user-libs:/opt/streamsets-datacollector-user-libs:Z
     ulimits:
       nofile:
         soft: 32768
         hard: 32768
     user: '1000'
+    command:
+      - dc
+      - -exec
+    entrypoint:
+      - /pre-docker-entrypoint.sh
     restart: unless-stopped
   #  ================================== cAdvisor ========================================== #
   wetty:
@@ -521,7 +529,7 @@ services:
     hostname: markdown-viewer
     labels:
       com.platys.webui.title: Markdown Viewer UI
-      com.platys.webui.url: http://${PUBLIC_IP}
+      com.platys.webui.url: http://${PUBLIC_IP}:80
     ports:
       - 80:80
     volumes:
@@ -533,6 +541,7 @@ services:
     container_name: markdown-renderer
     hostname: markdown-renderer
     environment:
+      USE_PUBLIC_IP: 'True'
       PUBLIC_IP: ${PUBLIC_IP}
       DOCKER_HOST_IP: ${DOCKER_HOST_IP}
       DATAPLATFORM_HOME: ${DATAPLATFORM_HOME}
