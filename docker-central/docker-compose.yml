@@ -303,6 +303,7 @@ services:
       KSQL_KSQL_SUPPRESS_BUFFER_SIZE_BYTES: '-1'
       KSQL_ACCESS_CONTROL_ALLOW_ORIGIN: '*'
       KSQL_ACCESS_CONTROL_ALLOW_METHODS: GET,POST,PUT,OPTIONS
+      KSQL_ACCESS_CONTROL_ALLOW_HEADERS: X-Requested-With,Content-Type,Accept,Origin,Authorization
       KSQL_JMX_OPTS: -Djava.rmi.server.hostname=localhost -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=1095 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.rmi.port=1095
     volumes:
       - ./data-transfer:/data-transfer
@@ -348,6 +349,7 @@ services:
       KSQL_KSQL_SUPPRESS_BUFFER_SIZE_BYTES: '-1'
       KSQL_ACCESS_CONTROL_ALLOW_ORIGIN: '*'
       KSQL_ACCESS_CONTROL_ALLOW_METHODS: GET,POST,PUT,OPTIONS
+      KSQL_ACCESS_CONTROL_ALLOW_HEADERS: X-Requested-With,Content-Type,Accept,Origin,Authorization
       KSQL_JMX_OPTS: -Djava.rmi.server.hostname=localhost -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=1095 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.rmi.port=1095
     volumes:
       - ./data-transfer:/data-transfer
