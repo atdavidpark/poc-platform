@@ -536,7 +536,7 @@ services:
       - 18630:18630
     environment:
       SDC_OFFSET_DIRECTORY: /data/custom-offset-el
-      SDC_INSTALL_STAGES: streamsets-datacollector-apache-kafka_2_6-lib,streamsets-datacollector-groovy_2_4-lib,streamsets-datacollector-jdbc-lib
+      SDC_INSTALL_STAGES: streamsets-datacollector-apache-kafka_2_6-lib,streamsets-datacollector-groovy_2_4-lib,streamsets-datacollector-jdbc-lib,streamsets-datacollector-aws-lib
       SDC_INSTALL_ENTERPRISE_STAGES: ''
       SDC_JAVA_OPTS: -Xmx2g -Xms2g
       SDC_JAVA8_OPTS: -XX:+UseG1GC
@@ -610,7 +610,7 @@ services:
     ports:
       - 28176:8080
     environment:
-      ENDPOINT: minio:9000
+      ENDPOINT: minio-1:9000
       ACCESS_KEY_ID: V42FCGRVMK24JJ8DHUYG
       SECRET_ACCESS_KEY: ${PLATYS_AWS_SECRET_ACCESS_KEY:-bKhWxVF3kQoLY9kFmt91l+tDrEoZjqnWXzY9Eza}
       USE_SSL: 'false'

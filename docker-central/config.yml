@@ -242,7 +242,7 @@
       STREAMSETS_volume_map_security_policy: false
       STREAMSETS_activate_https: false
       STREAMSETS_additional_port_mappings: 0
-      STREAMSETS_stage_libs: 'streamsets-datacollector-apache-kafka_2_6-lib,streamsets-datacollector-groovy_2_4-lib,streamsets-datacollector-jdbc-lib'
+      STREAMSETS_stage_libs: 'streamsets-datacollector-apache-kafka_2_6-lib,streamsets-datacollector-groovy_2_4-lib,streamsets-datacollector-jdbc-lib,streamsets-datacollector-aws-lib'
       # one of 'none', 'basic', 'digest', or 'form'
       STREAMSETS_http_authentication: form
       #
