@@ -599,6 +599,21 @@ services:
         #
         while [ 1 -eq 1 ];do sleep 60;done
     restart: unless-stopped
+  #  ================================== Minio Console ========================================== #
+  minio-console:
+    image: minio/console:latest
+    container_name: admminio-console
+    hostname: minio-console
+    labels:
+      com.platys.webui.title: Minio Console UI
+      com.platys.webui.url: http://${PUBLIC_IP}:28193
+    ports:
+      - 28193:9090
+    environment:
+      CONSOLE_MINIO_SERVER: http://minio-1:9090
+    volumes:
+      - ./data-transfer:/data-transfer
+    restart: unless-stopped
   #  ================================== Adminio UI ========================================== #
   adminio-ui:
     image: rzrbld/adminio-ui:latest
@@ -610,9 +625,9 @@ services:
     ports:
       - 28190:80
     environment:
-      API_BASE_URL: http://localhost:28191
+      API_BASE_URL: http://${PUBLIC_IP}:28191
       ADMINIO_MULTI_BACKEND: 'false'
-      ADMINIO_BACKENDS: '[{"name":"myminio","url":"http://localhost:8080"},{"name":"localhost","url":"http://localhost:8081"},{"name":"error","url":"http://localhost:8082"}]'
+      ADMINIO_BACKENDS: '[{"name":"myminio","url":"http://${PUBLIC_IP}:28191"}]'
       NGX_ROOT_PATH: /
     volumes:
       - ./data-transfer:/data-transfer
@@ -631,7 +646,7 @@ services:
       MINIO_SECRET: bKhWxVF3kQoLY9kFmt91l+tDrEoZjqnWXzY9Eza
       MINIO_HOST_PORT: minio-1:9000
       #MINIO_SSE_MASTER_KEY: 1:da2f4cfa32bed76507dcd44b42872328a8e14f25cd2a1ec0fb85d299a192a447
-      ADMINIO_HOST_PORT: 8080
+      ADMINIO_HOST_PORT: :8080
     volumes:
       - ./data-transfer:/data-transfer
     restart: unless-stopped
