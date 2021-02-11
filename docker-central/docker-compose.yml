@@ -602,7 +602,7 @@ services:
   #  ================================== Minio Console ========================================== #
   minio-console:
     image: minio/console:latest
-    container_name: admminio-console
+    container_name: mminio-console
     hostname: minio-console
     labels:
       com.platys.webui.title: Minio Console UI
@@ -613,6 +613,7 @@ services:
       CONSOLE_MINIO_SERVER: http://minio-1:9090
     volumes:
       - ./data-transfer:/data-transfer
+    command: server
     restart: unless-stopped
   #  ================================== Adminio UI ========================================== #
   adminio-ui:
