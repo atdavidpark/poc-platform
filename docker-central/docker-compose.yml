@@ -558,6 +558,65 @@ services:
     entrypoint:
       - /pre-docker-entrypoint.sh
     restart: unless-stopped
+  #  ================================== Minio ========================================== #
+  minio-1:
+    image: minio/minio:RELEASE.2021-02-01T22-56-52Z
+    container_name: minio-1
+    hostname: minio-1
+    labels:
+      com.platys.webui.title: MinIO UI
+      com.platys.webui.url: http://${PUBLIC_IP}:9000
+    ports:
+      - 9000:9000
+    environment:
+      MINIO_ACCESS_KEY: V42FCGRVMK24JJ8DHUYG
+      MINIO_SECRET_KEY: bKhWxVF3kQoLY9kFmt91l+tDrEoZjqnWXzY9Eza
+      MINIO_REGION_NAME: us-east-1
+      MINIO_BROWSER: 'True'
+      #MINIO_DEFAULT_BUCKETS: 'admin-bucket,'
+    volumes:
+      - ./data-transfer:/data-transfer
+    command: server /data
+    restart: unless-stopped
+  #  ================================== Minio MC ========================================== #
+  minio-mc:
+    image: minio/mc:latest
+    container_name: minio-mc
+    hostname: minio-mc
+    volumes:
+      - ./data-transfer:/data-transfer
+      - ./conf/minio/config.json:/root/.mc/config.json
+    entrypoint:
+      - /bin/sh
+      - -c
+      - |
+        sleep 10
+        mc mb --ignore-existing minio-1/admin-bucket
+        for i in $$(echo "" | sed "s/,/ /g")
+        do
+          mc mb --ignore-existing minio-1/$$i
+        done
+        #
+        while [ 1 -eq 1 ];do sleep 60;done
+    restart: unless-stopped
+  #  ================================== S3 Manager ========================================== #
+  s3manager:
+    image: mastertinner/s3manager:latest
+    container_name: s3manager
+    hostname: s3manager
+    labels:
+      com.platys.webui.title: S3 Manager UI
+      com.platys.webui.url: http://${PUBLIC_IP}:28176
+    ports:
+      - 28176:8080
+    environment:
+      ENDPOINT: minio:9000
+      ACCESS_KEY_ID: V42FCGRVMK24JJ8DHUYG
+      SECRET_ACCESS_KEY: ${PLATYS_AWS_SECRET_ACCESS_KEY:-bKhWxVF3kQoLY9kFmt91l+tDrEoZjqnWXzY9Eza}
+      USE_SSL: 'false'
+    volumes:
+      - ./data-transfer:/data-transfer
+    restart: unless-stopped
   #  ================================== cAdvisor ========================================== #
   wetty:
     image: svenihoney/wetty:latest

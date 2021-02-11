@@ -534,11 +534,12 @@
       #
       #=====  MinIO Object Storage ========
       #
-      MINIO_enable: false
+      MINIO_enable: true
       MINIO_volume_map_data: false
       MINIO_access_key: V42FCGRVMK24JJ8DHUYG
       MINIO_secret_key: bKhWxVF3kQoLY9kFmt91l+tDrEoZjqnWXzY9Eza
       AWSCLI_enable: false
+      S3MANAGER_enable: true
       #
       # ===== FTP ========
       #
